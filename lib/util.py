@@ -429,5 +429,13 @@ def get_python():
 
 def get_catboost_config(real_data_path, is_cv=False):
     ds_name = Path(real_data_path).name
-    C = load_json(f'tuned_models/catboost/{ds_name}_cv.json')
+    suffix = 'cv' if is_cv else 'val'
+    tuned_path = Path(f'tuned_models/catboost/{ds_name}_{suffix}.json')
+    if tuned_path.exists():
+        return load_json(tuned_path)
+
+    fallback_path = Path(f'tuned_models/catboost/default_{suffix}.json')
+    C = load_json(fallback_path)
+    # Let downstream code infer categorical feature indices for unseen datasets.
+    C.pop('cat_features', None)
     return C

@@ -1,22 +1,27 @@
 import subprocess
-import lib
 import os
 import optuna
 from copy import deepcopy
 import shutil
 import argparse
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import lib
 
 parser = argparse.ArgumentParser()
 parser.add_argument('ds_name', type=str)
-parser.add_argument('train_size', type=int)
 parser.add_argument('eval_type', type=str)
 parser.add_argument('eval_model', type=str)
 parser.add_argument('prefix', type=str)
+parser.add_argument('--train_size', type=int, default=None)
 parser.add_argument('--eval_seeds', action='store_true',  default=False)
 
 args = parser.parse_args()
-train_size = args.train_size
 ds_name = args.ds_name
 eval_type = args.eval_type 
 assert eval_type in ('merged', 'synthetic')
@@ -27,6 +32,12 @@ base_config_path = f'exp/{ds_name}/config.toml'
 parent_path = Path(f'exp/{ds_name}/')
 exps_path = Path(f'exp/{ds_name}/many-exps/') # temporary dir. maybe will be replaced with tempdiвdr
 eval_seeds = f'scripts/eval_seeds.py'
+
+base_config = lib.load_config(base_config_path)
+if args.train_size is None:
+    train_size = lib.load_json(Path(base_config['real_data_path']) / 'info.json')['train_size']
+else:
+    train_size = args.train_size
 
 os.makedirs(exps_path, exist_ok=True)
 

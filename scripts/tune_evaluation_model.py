@@ -1,9 +1,15 @@
 import optuna
-import lib
 import argparse
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import lib
 from eval_catboost import train_catboost
 from eval_mlp import train_mlp
-from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('ds_name', type=str)

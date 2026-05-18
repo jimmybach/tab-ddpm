@@ -1,11 +1,17 @@
 import argparse
 import subprocess
 import tempfile
-import lib
 import os
 import shutil
 from pathlib import Path
 from copy import deepcopy
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import lib
 from scripts.eval_catboost import train_catboost
 from scripts.eval_mlp import train_mlp
 from scripts.eval_simple import train_simple

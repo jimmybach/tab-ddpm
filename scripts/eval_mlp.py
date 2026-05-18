@@ -1,9 +1,15 @@
 from sklearn.metrics import classification_report, r2_score, f1_score
 import numpy as np
 import os
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from sklearn.utils import shuffle
 import zero
-from pathlib import Path
 import lib
 from tab_ddpm.modules import MLP
 from skorch.regressor import NeuralNetRegressor

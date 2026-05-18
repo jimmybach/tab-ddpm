@@ -2,6 +2,13 @@ import torch
 import numpy as np
 import zero
 import os
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
 from tab_ddpm.gaussian_multinomial_diffsuion import GaussianMultinomialDiffusion
 from tab_ddpm.utils import FoundNANsError
 from utils_train import get_model, make_dataset

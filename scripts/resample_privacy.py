@@ -3,15 +3,21 @@ Adapted from https://github.com/Team-TUD/CTAB-GAN/tree/main/model/eval
 """
 
 import argparse
-import lib
 import os
 import shutil
 import zero
+from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import lib
 from sample import sample
 from smote.sample_smote import sample_smote
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 from sklearn.metrics import pairwise_distances
-from pathlib import Path
 import tempfile
 from eval_seeds import eval_seeds
 import numpy as np

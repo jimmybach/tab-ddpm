@@ -1,11 +1,17 @@
 import argparse
 import subprocess
 import tempfile
-import lib
 import os
 import pandas as pd
 import numpy as np
 from pathlib import Path
+import sys
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+import lib
 from eval_simple import train_simple
 from copy import deepcopy
 import shutil
